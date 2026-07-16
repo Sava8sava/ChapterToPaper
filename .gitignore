@@ -7,3 +7,5 @@ temp/*
 downloads/*
 !downloads/.gitkeep*
 Reference_Document.md
+html_baixado_real.html
+tests/
