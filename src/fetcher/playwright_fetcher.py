@@ -13,7 +13,6 @@ class PlaywrightFetcher(BaseFetcher):
         e retorna o HTML final totalmente renderizado.
         """
         with sync_playwright() as p:
-            # LANÇA O FIREFOX EM SEGUNDO PLANO 🦊
             browser = p.firefox.launch(headless=True)
             
             # Cria um contexto simulando um dispositivo real

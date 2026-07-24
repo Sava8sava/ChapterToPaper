@@ -1,11 +1,22 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
+# Ambientes Virtuais e Cache do Python
 venv/
+.venv/
 __pycache__/
 *.pyc
-temp/*
-!temp/.gitkeep
-downloads/*
-!downloads/.gitkeep*
-Reference_Document.md
-html_baixado_real.html
+
+# Arquivos de Teste Locais
 tests/
+
+# Pasta de Downloads (Ignora os e-books, mas mantém a pasta estruturada no Git)
+downloads/*
+!downloads/.gitkeep
+
+# Pasta de Configurações Sensíveis/Perfis de Sites (Não enviar os JSONs)
+config/sites/*
+!config/sites/.gitkeep
+
+# Arquivos não importantes
+86.py 
+Reference_Document.md 
+requisitos.txt
+
