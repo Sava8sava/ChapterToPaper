@@ -1,7 +1,0 @@
-{
-  "site": "novelmania.com.br",
-  "title_selector": "title",
-  "content_selector": "article, .rich-text-content, div.prose",
-  "next_chapter_selector": "link[rel=\"next\"]",
-  "next_chapter_attr": "href"
-}
