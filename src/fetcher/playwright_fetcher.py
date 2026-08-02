@@ -1,7 +1,10 @@
 # src/fetcher/playwright_fetcher.py
+import logging
 import time
 from playwright.sync_api import sync_playwright
 from src.fetcher.base_fetcher import BaseFetcher
+
+logger = logging.getLogger("WebnovelToKindle.Fetcher")
 
 class PlaywrightFetcher(BaseFetcher):
     def __init__(self, timeout_ms: int = 30000):
@@ -26,11 +29,15 @@ class PlaywrightFetcher(BaseFetcher):
             
             try:
                 # Navega até a URL e aguarda a rede ficar ociosa
-                page.goto(url, timeout=self.timeout_ms, wait_until="domcontentloaded")
+                page.goto(url, timeout=self.timeout_ms, wait_until="networkidle")
                 
-                # Pausa para o Javascript injetar o texto na tela
-                time.sleep(3.5)
+                try:
+                    page.wait_for_selector("p", timeout=10000)
+                except Exception:
+                    logger.warning("Timeout aguardando tags <p>. Capturando estado atual...")
                 
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight / 3)")
+                page.wait_for_timeout(1000)
                 # Pega o HTML completo renderizado pelo Firefox
                 html_content = page.content()
                 
