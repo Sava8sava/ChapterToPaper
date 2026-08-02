@@ -1,6 +1,5 @@
 # src/fetcher/playwright_fetcher.py
 import logging
-import time
 from playwright.sync_api import sync_playwright
 from src.fetcher.base_fetcher import BaseFetcher
 
@@ -12,13 +11,12 @@ class PlaywrightFetcher(BaseFetcher):
 
     def fetch(self, url: str) -> str:
         """
-        Abre um Firefox invisível (headless), aguarda o carregamento do JS 
-        e retorna o HTML final totalmente renderizado.
+        Abre um navegador headless, carrega o DOM rapidamente e aguarda
+        o elemento de texto (<p>) estar presente antes de extrair o HTML.
         """
         with sync_playwright() as p:
             browser = p.firefox.launch(headless=True)
             
-            # Cria um contexto simulando um dispositivo real
             context = browser.new_context(
                 user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
                 locale="pt-BR",
@@ -28,19 +26,19 @@ class PlaywrightFetcher(BaseFetcher):
             page = context.new_page()
             
             try:
-                # Navega até a URL e aguarda a rede ficar ociosa
-                page.goto(url, timeout=self.timeout_ms, wait_until="networkidle")
+                # 1. Carrega a estrutura inicial sem travar em scripts de rede/anúncios
+                page.goto(url, timeout=self.timeout_ms, wait_until="domcontentloaded")
                 
+                # 2. Espera até 10s pelos parágrafos de texto (atende React/Next.js do WeTried)
                 try:
                     page.wait_for_selector("p", timeout=10000)
                 except Exception:
-                    logger.warning("Timeout aguardando tags <p>. Capturando estado atual...")
-                
-                page.evaluate("window.scrollTo(0, document.body.scrollHeight / 3)")
+                    logger.warning(f"Tempo limite atingido aguardando parágrafos em {url}. Continuando...")
+
+                # 3. Pausa pequena de estabilização (1 segundo)
                 page.wait_for_timeout(1000)
-                # Pega o HTML completo renderizado pelo Firefox
+
                 html_content = page.content()
-                
                 browser.close()
                 return html_content
                 
