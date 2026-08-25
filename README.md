@@ -44,6 +44,7 @@ python main.py <url_do_capitulo> <numero_de_capitulos> [--profile <arquivo_json>
 ### Docker 
 ```bash 
 sudo docker compose run --rm app <url_do_capitulo> <numero_de_capitulos> [--profile <arquivo_json>]
+```
 
 ## Estrutura do projeto
 
