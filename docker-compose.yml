@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    image: chapter-to-paper
+    volumes:
+      - ./downloads:/app/downloads
+      - ./config:/app/config

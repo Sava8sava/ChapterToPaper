@@ -16,8 +16,11 @@ Aplicação para baixar capítulos de web novels a partir de um link e compilá-
 
 - Python 3.10+
 - Dependências listadas em `requirements.txt`
+- Docker - opcional caso queria rodar num conteiner 
 
 ## Instalação
+
+### Local 
 
 ```bash
 python -m venv venv
@@ -25,11 +28,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Docker 
+
+```bash 
+docker compose up --build 
+```
+
 ## Uso
 
+### Local 
 ```bash
 python main.py <url_do_capitulo> <numero_de_capitulos> [--profile <arquivo_json>]
 ```
+
+### Docker 
+```bash 
+sudo docker compose run --rm app <url_do_capitulo> <numero_de_capitulos> [--profile <arquivo_json>]
 
 ## Estrutura do projeto
 
@@ -45,7 +59,8 @@ webnovel-to-kindle/
 │   └── orchestrator.py    # Coordena o fluxo completo
 ├── downloads/             # Saída dos EPUBs finais
 ├── main.py                # Ponto de entrada (CLI)
-└── requirements.txt
+└── requirements.txt 
+
 ```
 
 ## Arquitetura
