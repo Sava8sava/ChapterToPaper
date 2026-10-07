@@ -3,14 +3,13 @@ venv/
 .venv/
 __pycache__/
 *.pyc
-docs/
-
-# Arquivos de Teste Locais
-tests/
 
 # Pasta de Downloads (Ignora os e-books, mas mantém a pasta estruturada no Git)
 downloads/*
 !downloads/.gitkeep
+
+# Banco, cache de capítulos e EPUBs persistidos localmente
+data/
 
 # Pasta de Configurações Sensíveis/Perfis de Sites (Não enviar os JSONs)
 config/sites/*
@@ -20,4 +19,3 @@ config/sites/*
 86.py 
 Reference_Document.md 
 requisitos.txt
-

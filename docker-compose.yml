@@ -3,5 +3,5 @@ services:
     build: .
     image: chapter-to-paper
     volumes:
-      - ./downloads:/app/downloads
+      - ./data:/app/data
       - ./config:/app/config

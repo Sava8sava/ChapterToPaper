@@ -45,7 +45,13 @@ class EpubBuilder:
             logger.warning(f"Falha ao baixar imagem de {url}: {e}")
             return None
 
-    def create_epub(self, book_title: str, author: str, chapters: list[Chapter]) -> str:
+    def create_epub(
+        self,
+        book_title: str,
+        author: str,
+        chapters: list[Chapter],
+        filename_stem: str | None = None,
+    ) -> str:
         """
         Recebe a lista de capítulos, processa as imagens embutindo-as fisicamente,
         organiza o sumário, aplica estilos CSS e gera o arquivo .epub final.
@@ -177,7 +183,8 @@ class EpubBuilder:
         
         output_path = self.storage.save_final_epub(
             book_title=book_title,
-            write_callback=lambda path: epub.write_epub(path, book, {})
+            write_callback=lambda path: epub.write_epub(path, book, {}),
+            filename_stem=filename_stem,
         )
         
         logger.info(f"Livro gerado com sucesso!")
